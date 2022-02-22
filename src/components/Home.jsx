@@ -6,13 +6,19 @@ import { useEffect } from 'react';
 const Home = (props) => {
 
     const [courses, setCourses] = useState([]);
+    const [recentGrades, setRecentGrades] = useState([]);
 
     const [fname, setfname] = useState();
     const [studentID, setStudentID] = useState(-1);
+
+    useEffect(() => {
+      console.log(recentGrades);
+    }, [recentGrades]);
+    
     
 
     //On load function - sets up dashboard with information from database
-    const onLoad = async () => {
+    const loadCourses = async () => {
        if (studentID) {
            setCourses([]);
            try {
@@ -34,14 +40,39 @@ const Home = (props) => {
        }
     } 
 
-    //Performs onload functions
+    //On load function - sets up dashboard with information from database
+    const loadRecentGrades = async () => {
+        if (studentID) {
+            setRecentGrades([]);
+            try {
+                await fetch(`http://localhost:5000/recentGrades/${studentID}`)
+                 .then((response) => response.json())
+                 .then((response) => setRecentGrades(response))
+                 .then(() => {
+                     /*
+                     let termRE = /[^0-9](?=[0-9])/g;
+                     for(let i = 0; i < studentCourses.length; i++) {
+                         let term = studentCourses[i].term.replace(termRE, '$& ');
+                         term = term[0].toUpperCase() + term.slice(1);
+                         setCourses(courses => [...courses, {term: term, code: studentCourses[i].courseid}]);
+                        }
+                        */
+                 })
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+     } 
+
+    //Performs loadCourses functions
     useEffect(() => {
         setfname(props.user.fname);
         setStudentID(props.user.studentid);
     }, [props]);
   
     useEffect(() => {
-        onLoad();
+        loadCourses();
+        loadRecentGrades();
     }, [studentID]);
 
 
@@ -120,11 +151,11 @@ const Home = (props) => {
             { studentID === undefined ? <Navigate to="/login" /> : <Fragment /> }
             <div className="container mt-3 text-center">
                 <div className="alert alert-info alert-dismissible fade show" role="alert">
-                    <strong>Example Alert:</strong> Extra information goes here.
+                    <strong>Alert:</strong> Last day to drop classes without grade of 'W' is 02/17/2022!.
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
-            <h1 className="pt-5 text-center">Welcome, {fname}</h1>
+            <h1 className="pt-5 text-center">Welcome, {fname}!</h1>
             <div className="container pt-0 pt-md-3 pt-lg-5 my-5">
                 <div className="row">
                     <div className="col-12 col-md-4 pe-md-3 pe-lg-5">
@@ -150,9 +181,13 @@ const Home = (props) => {
                                 <b>Recently Graded</b>
                             </div>
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item"><a href="#" className="text-dark text-decoration-none">#/##/2022: # / 100 on Assignment #</a></li>
-                                <li className="list-group-item"><a href="#" className="text-dark text-decoration-none">#/##/2022: # / 100 on Assignment #</a></li>
-                                <li className="list-group-item"><a href="#" className="text-dark text-decoration-none">#/##/2022: # / 100 on Assignment #</a></li>
+                                {
+                                    recentGrades.map((recentGrade) => {
+                                        return (
+                                            <li className="list-group-item"><a href="#" className="text-dark text-decoration-none">{recentGrade.dategraded.slice(0,10)}: {recentGrade.grade}/{recentGrade.maxgrade} on {recentGrade.title} – {recentGrade.courseid}</a></li>
+                                        )
+                                    })
+                                }
                             </ul>
                         </div>
                     </div>
