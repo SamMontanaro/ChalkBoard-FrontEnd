@@ -17,7 +17,7 @@ const Home = (props) => {
            setCourses([]);
            try {
                let studentCourses;
-               await fetch(`http://localhost:5000/courses/${studentID}`)
+               await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/courses/${studentID}`)
                 .then((response) => response.json())
                 .then((response) => studentCourses = response)
                 .then(() => {
@@ -77,7 +77,7 @@ const Home = (props) => {
     const addCourseToDB = async (courseID, courseName, facultyID, term, courseSubject) => {
         try {
             const body = { courseID, courseName, facultyID, term, courseSubject }
-            const response = await fetch("http://localhost:5000/newCourse", {
+            const response = await fetch("http://ec2-52-23-63-127.compute-1.amazonaws.com/newCourse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -93,7 +93,7 @@ const Home = (props) => {
    const enrollInCourse = async (studentID, courseID, term) => {
         try {
             const body = { studentID, courseID, term }
-            const response = await fetch("http://localhost:5000/newStudentCourse", {
+            const response = await fetch("http://ec2-52-23-63-127.compute-1.amazonaws.com/newStudentCourse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

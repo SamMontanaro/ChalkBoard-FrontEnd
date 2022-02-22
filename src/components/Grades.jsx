@@ -28,7 +28,7 @@ const Grades = (props) => {
             setCourses([]);
             try {
                 let studentCourses;
-                await fetch(`http://localhost:5000/courses/${studentID}`)
+                await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/courses/${studentID}`)
                  .then((response) => response.json())
                  .then((response) => studentCourses = response)
                  .then(() => {
@@ -57,7 +57,7 @@ const Grades = (props) => {
         setAssignments([]);
         try {
             let courseAssignments;
-            await fetch(`http://localhost:5000/Assignments/${courseID}`)
+            await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/Assignments/${courseID}`)
                 .then((response) => response.json())
                 .then((response) => {
                     courseAssignments = response;
@@ -75,7 +75,7 @@ const Grades = (props) => {
     const getGrade = async (assignmentID) => {
         if (assignmentID !== 0) {
             try {
-                await fetch(`http://localhost:5000/grades/${studentID}/${assignmentID}/`)
+                await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/grades/${studentID}/${assignmentID}/`)
                     .then((response) => response.json())
                     .then((response) => {
                         setGrade(response);

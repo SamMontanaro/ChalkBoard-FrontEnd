@@ -11,7 +11,7 @@ function Login(props) {
         e.preventDefault();
         try {
             let studentUser;
-            await fetch(`http://localhost:5000/login/${email}`)
+            await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/login/${email}`)
                 .then((response) => response.json())
                 .then((response) => studentUser = response)
                 .then(() => {

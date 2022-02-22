@@ -20,7 +20,7 @@ function NewUser() {
             const body = { userType, fname, lname, email, pass, c_pass }
             const matches = pass === c_pass;
             matches ? alert("MATCHED") : alert("NO MATCH"); 
-            const response = await fetch("http://localhost:5000/signup", {
+            const response = await fetch("http://ec2-52-23-63-127.compute-1.amazonaws.com/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

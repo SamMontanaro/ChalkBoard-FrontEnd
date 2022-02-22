@@ -36,7 +36,7 @@ const Assignment = (props) => {
         if (assignmentID !== 0) {
             try {
                 let courseID = window.location.href.slice(-6);
-                await fetch(`http://localhost:5000/${courseID}/${assignmentID}`)
+                await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/${courseID}/${assignmentID}`)
                     .then((response) => response.json())
                     .then((response) => {
                         setAssignment(response);
@@ -55,7 +55,7 @@ const Assignment = (props) => {
         let assignmentID = props.assignmentID;
         if (assignmentID !== 0) {
             try {
-                await fetch(`http://localhost:5000/grades/${studentID}/${assignmentID}/`)
+                await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/grades/${studentID}/${assignmentID}/`)
                     .then((response) => response.json())
                     .then((response) => {
                         setGrade(response);

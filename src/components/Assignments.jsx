@@ -11,7 +11,7 @@ const Assignments = (props) => {
         try {
             let courseAssignments;
             let courseID = window.location.href.slice(-6);
-            await fetch(`http://localhost:5000/Assignments/${courseID}`)
+            await fetch(`http://ec2-52-23-63-127.compute-1.amazonaws.com/Assignments/${courseID}`)
                 .then((response) => response.json())
                 .then((response) => {
                     courseAssignments = response;
